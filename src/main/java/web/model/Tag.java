@@ -3,13 +3,42 @@ package web.model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "tag")
 public class Tag {
+    @Id
+    @SequenceGenerator(name="gerador3", sequenceName="tag_codigo_seq", allocationSize=1)
+	@GeneratedValue(generator="gerador3", strategy=GenerationType.SEQUENCE)
     private Long codigo;
-    private Usuario usuario;
+
+    @ManyToMany
+    @JoinTable(
+        name = "tag_filme",
+        joinColumns = @JoinColumn(name = "codigo_tag"),
+        inverseJoinColumns = @JoinColumn(name = "codigo_filme")
+    )
     private List<Filme> filmes = new ArrayList<>();
-    private String status; //publica ou privada, talvez trocar para um ENUM
+
+    @Column(name = "dt_criacao")
     private LocalDateTime dtCriacao;
+
+    @ManyToOne
+    @JoinColumn(name = "codigo_usuario")
+    private Usuario usuario;
+    
+    private StatusTag status;
     
     public Long getCodigo() {
         return codigo;
@@ -29,10 +58,10 @@ public class Tag {
     public void setFilmes(List<Filme> filmes) {
         this.filmes = filmes;
     }
-    public String getStatus() {
+    public StatusTag getStatus() {
         return status;
     }
-    public void setStatus(String status) {
+    public void setStatus(StatusTag status) {
         this.status = status;
     }
     public LocalDateTime getDtCriacao() {

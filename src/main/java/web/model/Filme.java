@@ -1,12 +1,30 @@
 package web.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "filme")
 public class Filme {
+    @Id
+    @SequenceGenerator(name="gerador1", sequenceName="filme_codigo_seq", allocationSize=1)
+	@GeneratedValue(generator="gerador1", strategy=GenerationType.SEQUENCE)
     private Long codigo;
+
+    @Column(name = "ano_lancamento")
+    private String anoLancamento;
+
+    @Column(name = "url_imagem")
+    private String urlImagem;
+
     private String nome;
     private String genero;
     private String diretor;
-    private String anoLancamento;
-    private String caminhoImagem; //confirmar como o banner do filme vira da API
 
     public Long getCodigo() {
         return codigo;
@@ -38,10 +56,10 @@ public class Filme {
     public void setAnoLancamento(String anoLancamento) {
         this.anoLancamento = anoLancamento;
     }
-    public String getCaminhoImagem() {
-        return caminhoImagem;
+    public String getUrlImagem() {
+        return urlImagem;
     }
-    public void setCaminhoImagem(String caminhoImagem) {
-        this.caminhoImagem = caminhoImagem;
+    public void setUrlImagem(String urlImagem) {
+        this.urlImagem = urlImagem;
     }
 }
